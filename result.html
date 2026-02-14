@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Snappics - Your Strip</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    .font-playfair { font-family: 'Playfair Display', serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    .btn { background: linear-gradient(180deg, #BFC5E8 0%, #98A2CC 33%, #8592BB 66%, #7B81AA 100%); }
+    * { transition: transform 0.2s, opacity 0.2s; }
+    .color-option {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+    @media (min-width: 768px) {
+      .color-option {
+        width: 50px;
+        height: 50px;
+      }
+    }
+    .color-option.active {
+      border-color: #ffffff;
+      box-shadow: 0 0 0 2px #000;
+    }
+    .frame-option, .sticker-option {
+      cursor: pointer;
+      border: 3px solid transparent;
+      border-radius: 8px;
+    }
+    .frame-option.active, .bg-design-option.active {
+      border-color: #9618F7;
+    }
+    .bg-design-option {
+      cursor: pointer;
+      border: 3px solid transparent;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body class="font-montserrat min-h-screen bg-[linear-gradient(120deg,#A3C9E2_30%,#9618F7_100%)] flex flex-col">
+
+  <!-- Main Content -->
+  <div class="flex-1 flex items-center justify-center p-4">
+    <div class="flex flex-col lg:flex-row gap-6 items-start justify-center max-w-6xl w-full mx-auto">
+      
+      <!-- Left side - Photo Strip Preview -->
+      <div class="bg-white rounded-3xl shadow-2xl p-4 md:p-8 w-full lg:w-auto lg:flex-shrink-0">
+        <h2 class="font-playfair text-2xl md:text-3xl font-bold text-center mb-1 text-gray-800">Your Photo Strip!</h2>
+        <p class="font-montserrat text-center text-gray-400 mb-4 md:mb-6 text-sm md:text-base">🎉 Looking great!</p>
+
+        <div class="flex justify-center mb-4 md:mb-6">
+          <div class="w-64 md:w-72 rounded-xl overflow-hidden shadow-lg relative">
+            <!-- Top accent bar -->
+            <div style="background: linear-gradient(120deg, #A3C9E2 30%, #9618F7 100%); height:12px;"></div>
+
+            <!-- Background area (changeable) - can be image or color -->
+            <div id="stripBackground" style="background:#fef3c7;" class="px-4 md:px-5 pt-3 md:pt-4 pb-4 md:pb-5 relative">
+              <!-- Background Image (if selected) -->
+              <img id="previewBgImage" src="" alt="" class="absolute inset-0 w-full h-full object-cover" style="display:none; z-index: 0;" />
+              
+              <div class="relative" style="z-index: 1;">
+                <!-- Title -->
+                <p class="font-playfair text-center text-sm font-bold bg-[linear-gradient(120deg,#A3C9E2_30%,#9618F7_100%)] text-transparent bg-clip-text mb-3 md:mb-4">Snappics</p>
+
+                <!-- Photos -->
+                <div class="flex flex-col gap-2 md:gap-3">
+                  <div class="">
+                      <img id="photo1" src="" alt="Photo 1" class="w-full h-auto" />
+                  </div>
+                  <div class="">
+                      <img id="photo2" src="" alt="Photo 2" class="w-full h-auto" />
+                  </div>
+                  <div class="">
+                      <img id="photo3" src="" alt="Photo 3" class="w-full h-auto" />
+                  </div>
+                  <div class="">
+                      <img id="photo4" src="" alt="Photo 4" class="w-full h-auto" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="background: linear-gradient(120deg, #A3C9E2 30%, #9618F7 100%); height:12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side - Customization Options -->
+      <div class="bg-white lg:bg-transparent rounded-3xl lg:rounded-none p-4 md:p-6 w-full lg:flex-1 lg:max-w-[600px]">
+        
+        <!-- Background Design Section -->
+        <div class="mb-4 md:mb-6">
+          <h3 class="font-playfair text-lg md:text-xl font-bold mb-2 md:mb-3 text-gray-800">Frames</h3>
+          <div class="grid grid-cols-3 md:grid-cols-4 gap-2 md:gap-3 mb-4">
+            <!-- Frame options -->
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame1.png', 'assets/frame1.png', this)">
+              <img src="assets/frame1.png" alt="Design 1" class="w-full h-full object-cover" />
+            </div>
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame2.png', 'assets/frame2.png', this)">
+              <img src="assets/frame2.png" alt="Design 2" class="w-full h-full object-cover" />
+            </div>
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame3.png', 'assets/frame3.png', this)">
+              <img src="assets/frame3.png" alt="Design 3" class="w-full h-full object-cover" />
+            </div>
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame4.jpg', 'assets/frame4.jpg', this)">
+              <img src="assets/frame4.jpg" alt="Design 4" class="w-full h-full object-cover" />
+            </div>
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame5.jpg', 'assets/frame5.jpg', this)">
+              <img src="assets/frame5.jpg" alt="Design 5" class="w-full h-full object-cover" />
+            </div>
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame6.jpg', 'assets/frame6.jpg', this)">
+              <img src="assets/frame6.jpg" alt="Design 6" class="w-full h-full object-cover" />
+            </div>
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame7.jpg', 'assets/frame7.jpg', this)">
+              <img src="assets/frame7.jpg" alt="Design 7" class="w-full h-full object-cover" />
+            </div>      
+            <div class="bg-design-option bg-gray-100 rounded-lg overflow-hidden h-16 md:h-20 flex items-center justify-center" onclick="applyBackgroundDesign('assets/frame8.jpg', 'assets/frame8.jpg', this)">
+              <img src="assets/frame8.jpg" alt="Design 8" class="w-full h-full object-cover" />
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4 md:my-6 border-gray-200" />
+
+        <!-- Background Colors Section -->
+        <div class="mb-4 md:mb-6">
+          <h3 class="font-playfair text-lg md:text-xl font-bold mb-2 md:mb-3 text-gray-800">Or Choose Solid Color</h3>
+          <div class="flex flex-wrap gap-2 md:gap-3 mb-3 md:mb-4">
+            <div class="color-option active" style="background:#fef3c7;" onclick="changeBackground('#fef3c7', this)"></div>
+            <div class="color-option" style="background:#fecaca;" onclick="changeBackground('#fecaca', this)"></div>
+            <div class="color-option" style="background:#bfdbfe;" onclick="changeBackground('#bfdbfe', this)"></div>
+            <div class="color-option" style="background:#ddd6fe;" onclick="changeBackground('#ddd6fe', this)"></div>
+            <div class="color-option" style="background:#fbcfe8;" onclick="changeBackground('#fbcfe8', this)"></div>
+            <div class="color-option" style="background:#d1fae5;" onclick="changeBackground('#d1fae5', this)"></div>
+            <div class="color-option" style="background:#fed7aa;" onclick="changeBackground('#fed7aa', this)"></div>
+            <div class="color-option" style="background:#e5e7eb;" onclick="changeBackground('#e5e7eb', this)"></div>
+          </div>
+          
+          <!-- Color Picker -->
+          <div class="flex items-center gap-2 md:gap-3">
+            <label class="font-montserrat text-xs md:text-sm text-gray-600">Custom Color:</label>
+            <input type="color" id="colorPicker" value="#fef3c7" class="w-12 h-8 md:w-16 md:h-10 rounded cursor-pointer border-2 border-gray-300" onchange="changeBackgroundFromPicker()" />
+          </div>
+        </div>
+
+        <hr class="my-4 md:my-6 border-gray-200" />
+
+        <!-- Stickers Section -->
+        <div class="mb-4 md:mb-6">
+          <h3 class="font-playfair text-lg md:text-xl font-bold mb-2 md:mb-3 text-gray-800">Stickers</h3>
+          <div class="grid grid-cols-4 gap-2 md:gap-3">
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker1.svg')">
+              <img src="assets/sticker1.svg" alt="Sticker 1" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker2.svg')">
+              <img src="assets/sticker2.svg" alt="Sticker 2" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker3.svg')">
+              <img src="assets/sticker3.svg" alt="Sticker 3" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker4.svg')">
+              <img src="assets/sticker4.svg" alt="Sticker 4" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker5.svg')">
+              <img src="assets/sticker5.svg" alt="Sticker 5" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker6.svg')">
+              <img src="assets/sticker6.svg" alt="Sticker 6" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker7.svg')">
+              <img src="assets/sticker7.svg" alt="Sticker 7" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+            <div class="sticker-option bg-gray-100 rounded-lg p-2 h-16 md:h-20 flex items-center justify-center cursor-pointer" onclick="addSticker('assets/sticker8.svg')">
+              <img src="assets/sticker8.svg" alt="Sticker 8" class="w-8 h-8 md:w-12 md:h-12 object-contain" />
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4 md:my-6 border-gray-200" />
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col md:flex-row gap-3">
+          <button onclick="downloadStrip()" class="btn hover:scale-105 flex items-center justify-center gap-2 text-black px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-semibold shadow-lg w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download Strip
+          </button>
+          <button onclick="goBack()" class="btn hover:scale-105 flex items-center justify-center gap-2 text-black px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-semibold shadow-lg w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-5 md:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Start Over
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-[#1F0A50] py-5 px-4 md:px-12 mt-auto">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="text-sm md:text-base font-[Montserrat] text-white text-center md:text-left">
+        2026 © gemiilorya. All Rights Reserved.
+      </div>
+      <div class="text-white text-sm md:text-base font-[Montserrat] flex flex-wrap gap-4 md:gap-8 items-center justify-center">
+        <a href="https://github.com/gemiilorya" class="hover:underline">Github</a>
+        <a href="https://www.linkedin.com/in/gloria-marie-lamsin/" class="hover:underline">Linkedin</a> 
+        <a href="#" class="hover:underline">Portfolio</a> 
+        <a href="mailto:gloriamarielamsin@gmail.com">
+          <button class="px-6 md:px-10 py-2 md:py-4 font-[Montserrat] text-white hover:scale-110 text-sm md:text-base bg-[#D1C1F7] rounded-full shadow-md">
+            Contact Me
+          </button>
+        </a> 
+      </div>
+    </div>
+  </footer>
+
+  <!-- Keep your existing script section unchanged -->
+  <script>
+    let capturedImages = [];
+    let currentBackgroundColor = '#fef3c7';
+    let currentBackgroundImage = null;
+    let currentBackgroundMode = 'color';
+    let stickers = [];
+
+    window.onload = function () {
+      capturedImages = JSON.parse(sessionStorage.getItem('snappics_photos') || '[]');
+
+      if (capturedImages.length < 4) {
+        window.location.href = 'camera.html';
+        return;
+      }
+
+      document.getElementById('photo1').src = capturedImages[0];
+      document.getElementById('photo2').src = capturedImages[1];
+      document.getElementById('photo3').src = capturedImages[2];
+      document.getElementById('photo4').src = capturedImages[3];
+    };
+
+    function applyBackgroundDesign(fullImagePath, previewImagePath, element) {
+      currentBackgroundImage = fullImagePath;
+      currentBackgroundMode = 'image';
+      
+      const previewBg = document.getElementById('previewBgImage');
+      previewBg.src = previewImagePath;
+      previewBg.style.display = 'block';
+      
+      document.querySelectorAll('.bg-design-option').forEach(opt => opt.classList.remove('active'));
+      if (element) {
+        element.classList.add('active');
+      }
+      
+      document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+    }
+
+    function changeBackground(color, element) {
+      currentBackgroundColor = color;
+      currentBackgroundMode = 'color';
+      currentBackgroundImage = null;
+      
+      document.getElementById('stripBackground').style.background = color;
+      document.getElementById('colorPicker').value = color;
+      
+      document.getElementById('previewBgImage').style.display = 'none';
+      
+      document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+      if (element) {
+        element.classList.add('active');
+      }
+      
+      document.querySelectorAll('.bg-design-option').forEach(opt => opt.classList.remove('active'));
+    }
+
+    function changeBackgroundFromPicker() {
+      const color = document.getElementById('colorPicker').value;
+      currentBackgroundColor = color;
+      currentBackgroundMode = 'color';
+      currentBackgroundImage = null;
+      
+      document.getElementById('stripBackground').style.background = color;
+      
+      document.getElementById('previewBgImage').style.display = 'none';
+      
+      document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+      document.querySelectorAll('.bg-design-option').forEach(opt => opt.classList.remove('active'));
+    }
+
+    function addSticker(stickerPath) {
+      const stripContainer = document.getElementById('stripBackground');
+      const stripRect = stripContainer.getBoundingClientRect();
+      
+      const stickerEl = document.createElement('img');
+      stickerEl.src = stickerPath;
+      stickerEl.className = 'cursor-move pointer-events-none';
+      stickerEl.style.width = '100%';
+      stickerEl.style.height = '100%';
+      stickerEl.style.objectFit = 'contain';
+      
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerHTML = '×';
+      deleteBtn.className = 'absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-lg font-bold hover:bg-red-600 z-30';
+      
+      const resizeHandle = document.createElement('div');
+      resizeHandle.className = 'absolute -bottom-2 -right-2 bg-blue-500 rounded-full w-6 h-6 cursor-nwse-resize z-30';
+      resizeHandle.innerHTML = '⇲';
+      resizeHandle.style.fontSize = '14px';
+      resizeHandle.style.color = 'white';
+      resizeHandle.style.display = 'flex';
+      resizeHandle.style.alignItems = 'center';
+      resizeHandle.style.justifyContent = 'center';
+      
+      const rotateHandle = document.createElement('div');
+      rotateHandle.className = 'absolute -top-2 -left-2 bg-green-500 rounded-full w-6 h-6 cursor-pointer z-30';
+      rotateHandle.innerHTML = '↻';
+      rotateHandle.style.fontSize = '16px';
+      rotateHandle.style.color = 'white';
+      rotateHandle.style.display = 'flex';
+      rotateHandle.style.alignItems = 'center';
+      rotateHandle.style.justifyContent = 'center';
+      rotateHandle.style.fontWeight = 'bold';
+      
+      const wrapper = document.createElement('div');
+      wrapper.className = 'absolute';
+      wrapper.style.width = '60px';
+      wrapper.style.height = '60px';
+      wrapper.style.left = '50%';
+      wrapper.style.top = '50%';
+      wrapper.style.transform = 'translate(-50%, -50%)';
+      wrapper.style.zIndex = '100';
+      wrapper.appendChild(stickerEl);
+      wrapper.appendChild(deleteBtn);
+      wrapper.appendChild(resizeHandle);
+      wrapper.appendChild(rotateHandle);
+      
+      stripContainer.appendChild(wrapper);
+      
+      let currentRotation = 0;
+      let isDragging = false;
+      let isResizing = false;
+      let isRotating = false;
+      let startX, startY, initialLeft, initialTop, initialWidth, initialHeight;
+      
+      wrapper.addEventListener('mousedown', function(e) {
+        if (e.target === deleteBtn || e.target === resizeHandle || e.target === rotateHandle) return;
+        isDragging = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const rect = wrapper.getBoundingClientRect();
+        initialLeft = rect.left - stripRect.left;
+        initialTop = rect.top - stripRect.top;
+        
+        e.preventDefault();
+      });
+      
+      wrapper.addEventListener('touchstart', function(e) {
+        if (e.target === deleteBtn || e.target === resizeHandle || e.target === rotateHandle) return;
+        isDragging = true;
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        
+        const rect = wrapper.getBoundingClientRect();
+        initialLeft = rect.left - stripRect.left;
+        initialTop = rect.top - stripRect.top;
+        
+        e.preventDefault();
+      });
+      
+      resizeHandle.addEventListener('mousedown', function(e) {
+        isResizing = true;
+        startX = e.clientX;
+        startY = e.clientY;
+        
+        const rect = wrapper.getBoundingClientRect();
+        initialWidth = rect.width;
+        initialHeight = rect.height;
+        initialLeft = rect.left - stripRect.left;
+        initialTop = rect.top - stripRect.top;
+        
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      
+      resizeHandle.addEventListener('touchstart', function(e) {
+        isResizing = true;
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        
+        const rect = wrapper.getBoundingClientRect();
+        initialWidth = rect.width;
+        initialHeight = rect.height;
+        initialLeft = rect.left - stripRect.left;
+        initialTop = rect.top - stripRect.top;
+        
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      
+      rotateHandle.addEventListener('mousedown', function(e) {
+        isRotating = true;
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      
+      rotateHandle.addEventListener('touchstart', function(e) {
+        isRotating = true;
+        e.preventDefault();
+        e.stopPropagation();
+      });
+      
+      function handleMove(clientX, clientY) {
+        if (isDragging) {
+          const deltaX = clientX - startX;
+          const deltaY = clientY - startY;
+          
+          let newLeft = initialLeft + deltaX;
+          let newTop = initialTop + deltaY;
+          
+          const currentWidth = parseFloat(wrapper.style.width);
+          const currentHeight = parseFloat(wrapper.style.height);
+          
+          newLeft = Math.max(0, Math.min(newLeft, stripRect.width - currentWidth));
+          newTop = Math.max(0, Math.min(newTop, stripRect.height - currentHeight));
+          
+          wrapper.style.left = newLeft + 'px';
+          wrapper.style.top = newTop + 'px';
+          wrapper.style.transform = `rotate(${currentRotation}deg)`;
+        }
+        
+        if (isResizing) {
+          const deltaX = clientX - startX;
+          const deltaY = clientY - startY;
+          
+          const delta = Math.max(deltaX, deltaY);
+          
+          let newWidth = initialWidth + delta;
+          let newHeight = initialHeight + delta;
+          
+          newWidth = Math.max(40, newWidth);
+          newHeight = Math.max(40, newHeight);
+          
+          newWidth = Math.min(newWidth, stripRect.width - initialLeft);
+          newHeight = Math.min(newHeight, stripRect.height - initialTop);
+          
+          wrapper.style.width = newWidth + 'px';
+          wrapper.style.height = newHeight + 'px';
+        }
+        
+        if (isRotating) {
+          const rect = wrapper.getBoundingClientRect();
+          const centerX = rect.left + rect.width / 2;
+          const centerY = rect.top + rect.height / 2;
+          
+          const angle = Math.atan2(clientY - centerY, clientX - centerX);
+          currentRotation = angle * (180 / Math.PI) + 90;
+          
+          const currentLeft = parseFloat(wrapper.style.left);
+          const currentTop = parseFloat(wrapper.style.top);
+          
+          wrapper.style.transform = `rotate(${currentRotation}deg)`;
+          wrapper.style.left = currentLeft + 'px';
+          wrapper.style.top = currentTop + 'px';
+        }
+      }
+      
+      document.addEventListener('mousemove', function(e) {
+        handleMove(e.clientX, e.clientY);
+      });
+      
+      document.addEventListener('touchmove', function(e) {
+        if (isDragging || isResizing || isRotating) {
+          const touch = e.touches[0];
+          handleMove(touch.clientX, touch.clientY);
+          e.preventDefault();
+        }
+      });
+      
+      function handleEnd() {
+        if (isDragging || isResizing || isRotating) {
+          isDragging = false;
+          isResizing = false;
+          isRotating = false;
+          
+          const rect = wrapper.getBoundingClientRect();
+          const relativeX = rect.left - stripRect.left;
+          const relativeY = rect.top - stripRect.top;
+          const width = rect.width;
+          const height = rect.height;
+          
+          const scaleX = 480 / stripRect.width;
+          const scaleY = 1800 / stripRect.height;
+          
+          const existingIndex = stickers.findIndex(s => s.element === wrapper);
+          if (existingIndex > -1) {
+            stickers.splice(existingIndex, 1);
+          }
+          
+          const stickerData = {
+            src: stickerPath,
+            x: relativeX * scaleX,
+            y: relativeY * scaleY,
+            width: width * scaleX,
+            height: height * scaleY,
+            rotation: currentRotation,
+            element: wrapper
+          };
+          
+          stickers.push(stickerData);
+        }
+      }
+      
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchend', handleEnd);
+      
+      deleteBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const index = stickers.findIndex(s => s.element === wrapper);
+        if (index > -1) {
+          stickers.splice(index, 1);
+        }
+        wrapper.remove();
+      });
+    }
+
+    function downloadStrip() {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const previewStrip = document.querySelector('.w-64, .md\\:w-72');
+      const previewRect = previewStrip.getBoundingClientRect();
+      
+      const scale = 2.5;
+      canvas.width = previewRect.width * scale;
+      canvas.height = previewRect.height * scale;
+
+      if (currentBackgroundMode === 'image' && currentBackgroundImage) {
+        const bgImg = new Image();
+        bgImg.onload = () => {
+          ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+          drawRestOfStrip();
+        };
+        bgImg.src = currentBackgroundImage;
+      } else {
+        ctx.fillStyle = currentBackgroundColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        drawRestOfStrip();
+      }
+
+      function drawRestOfStrip() {
+        const topGradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+        topGradient.addColorStop(0, '#A3C9E2');
+        topGradient.addColorStop(1, '#9618F7');
+        
+        ctx.fillStyle = topGradient;
+        ctx.fillRect(0, 0, canvas.width, 12 * scale);
+        ctx.fillRect(0, canvas.height - (12 * scale), canvas.width, 12 * scale);
+
+        ctx.fillStyle = '#374151';
+        ctx.font = `bold ${18 * scale}px "Playfair Display", serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('Snappics', canvas.width / 2, 30 * scale);
+
+        let loadCount = 0;
+        const totalItems = 4 + stickers.length;
+        
+        const photos = [
+          document.getElementById('photo1'),
+          document.getElementById('photo2'),
+          document.getElementById('photo3'),
+          document.getElementById('photo4')
+        ];
+        
+        photos.forEach((photoEl, i) => {
+          const img = new Image();
+          img.onload = () => {
+            const photoRect = photoEl.getBoundingClientRect();
+            const stripRect = previewStrip.getBoundingClientRect();
+            
+            const x = (photoRect.left - stripRect.left) * scale;
+            const y = (photoRect.top - stripRect.top) * scale;
+            const width = photoRect.width * scale;
+            const height = photoRect.height * scale;
+
+            ctx.drawImage(img, x, y, width, height);
+
+            loadCount++;
+            if (loadCount === totalItems) {
+              finishDownload();
+            }
+          };
+          img.src = capturedImages[i];
+        });
+        
+        stickers.forEach((sticker) => {
+          const stickerImg = new Image();
+          stickerImg.onload = () => {
+            const rect = sticker.element.getBoundingClientRect();
+            const stripRect = previewStrip.getBoundingClientRect();
+            
+            const x = (rect.left - stripRect.left) * scale;
+            const y = (rect.top - stripRect.top) * scale;
+            const width = rect.width * scale;
+            const height = rect.height * scale;
+            
+            ctx.save();
+            ctx.translate(x + width / 2, y + height / 2);
+            ctx.rotate((sticker.rotation || 0) * Math.PI / 180);
+            ctx.drawImage(stickerImg, -width / 2, -height / 2, width, height);
+            ctx.restore();
+            
+            loadCount++;
+            if (loadCount === totalItems) {
+              finishDownload();
+            }
+          };
+          stickerImg.src = sticker.src;
+        });
+        
+        if (stickers.length === 0 && loadCount === 4) {
+          finishDownload();
+        }
+      }
+      
+      function finishDownload() {
+        const link = document.createElement('a');
+        link.download = 'snappics-strip.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }
+    }
+
+    function goBack() {
+      sessionStorage.removeItem('snappics_photos');
+      window.location.href = 'camera.html';
+    }
+  </script>
+</body>
+</html>
