@@ -17,6 +17,31 @@
         * { transition: transform 0.2s, opacity 0.2s; }
         video { transform: scaleX(-1); }
 
+        /* Constrain video size on mobile */
+        .camera-container {
+            width: 100%;
+            max-width: 640px; /* Max width for desktop */
+            min-width: 320px; /* Min width for very small phones */
+        }
+
+        /* Specific sizing for mobile in portrait mode */
+        @media (max-width: 768px) and (orientation: portrait) {
+            .camera-container {
+                width: 85vw; /* 85% of viewport width */
+                max-width: 500px; /* Don't exceed 500px on mobile portrait */
+                min-width: 300px; /* Minimum 300px */
+            }
+        }
+
+        /* Sizing for mobile in landscape mode */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .camera-container {
+                width: 60vh; /* 60% of viewport height to keep it proportional */
+                max-width: 640px;
+                min-width: 400px;
+            }
+        }
+
         #flashOverlay {
             position: fixed;
             inset: 0;
@@ -44,7 +69,7 @@
             Photo 1 of 4
         </div>
 
-        <div class="relative w-full max-w-2xl">
+        <div class="relative camera-container">
             <video id="camera" autoplay playsinline class="rounded-2xl shadow-2xl w-full"></video>
 
             <div id="countdownOverlay" class="hidden absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-2xl">
